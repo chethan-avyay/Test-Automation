@@ -3,15 +3,15 @@ Library           Selenium2Library
  
 *** Variables ***
 ${Username}       demouser
-${Password}       kai@demo1w
+${Password}       Kai@demo1
 ${Browser}        chrome
 ${SiteUrl}        https://kai.eastus.cloudapp.azure.com/login
 ${DashboardTitle}      KAI | Product Classification
-${ExpectedWarningMessage}    User doesn
+${LoggedInCheck}    Classification
 ${Delay}          5s
  
 *** Test Cases ***
-Login Should Failed With Registered Mail Adress
+Login With Registered Mail Adress
     Open KaiPage
     Click security
     Check Title
@@ -19,7 +19,10 @@ Login Should Failed With Registered Mail Adress
     Enter Right Password
     Click Login
     sleep    ${Delay}
-    Assert Warning Message
+    Sucessfull Login
+
+Model Test
+    Click Model DropDown
     [Teardown]    Close Browser
  
 *** Keywords ***
@@ -42,5 +45,10 @@ Click Login
 Check Title
     Title Should be    ${DashboardTitle}
  
-Assert Warning Message
-    Element Text Should Be    class=_9ay7    ${ExpectedWarningMessage}
+Sucessfull Login
+    Element Text Should Be    class=navbar-item.has-dropdown.is-hoverable   ${LoggedInCheck}
+
+Click Model DropDown
+    Click Link  link:Mass Predict
+    Click Element    id=customSelect
+    Select From List By Index   id=customSelect 1
